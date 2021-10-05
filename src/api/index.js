@@ -1,4 +1,4 @@
-const apiKey = 'k9DoNoFVnDlCIdBAgsU8rqW5FgRjXR47'
+const apiKey = 'wSI4CAPApVWmdBbGbtB0HiamA9Xnnm9m'
 const BASE_URL = 'https://dataservice.accuweather.com';
 
 export const getFiveDaysUrl = (locationKey = '215854') => {
