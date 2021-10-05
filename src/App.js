@@ -13,8 +13,6 @@ import { Paper } from '@material-ui/core';
 import { Home } from './components/home';
 import { Favorites } from './components/favorites';
 
-
-
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -30,17 +28,13 @@ function App() {
         <Paper style={{ height: "120vh" }}>
           <div className="App">
             <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
-
             <Router>
-
               <Switch>
-
                 <Route path="/favorites" component={Favorites} />
                 <Route path="/home" component={Home} />
                 <Route path="/">
                   <Redirect to="/home" />
                 </Route>
-
               </Switch>
             </Router>
           </div>
