@@ -1,17 +1,25 @@
 import React from 'react';
 import { Container, Grid, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { FavoriteCity } from './favoriteIcon';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    title: {
+        align: 'center',
+        paddingTop: '30px'
+    },
+    subtitle: {
+        paddingTop: '80px'
+    }
+});
+
 
 
 export const Favorites = () => {
-    const dispatch = useDispatch();
-    const favorites = useSelector(state => state.favorites.data);
-
+    const classes = useStyles();
     return (
         <Container>
             <Grid container spacing={3}>
-                <Grid item>
+                <Grid item className={classes.title}>
                     <Typography component={'h4'} variant={'h4'} color={'blue'} align={'center'}>
                         Your Favorite Cities
                     </Typography>
@@ -23,7 +31,7 @@ export const Favorites = () => {
                     ))}
                 </Grid> */}
 
-                <Grid>
+                <Grid className={classes.subtitle}>
                     <NoFavorites />
                 </Grid>
 
@@ -37,12 +45,12 @@ export const Favorites = () => {
 
 const NoFavorites = () => {
     return (
-        <Container>
-            <Typography component={'h6'} variant={'h6'} align={'center'} >
+        <div>
+            <Typography component={'h6'} variant={'h6'} >
                 There are no favorite cities. Please Choose
             </Typography>
+        </div>
 
-        </Container>
     )
 }
 

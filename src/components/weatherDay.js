@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import { WeatherIcon } from './weatherIcon';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -18,16 +17,16 @@ const useStyles = makeStyles({
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex',
-        background: 'linear-gradient(rgba(0, 183, 194, 0.4), rgba(15, 76, 117, 0.1))',
+        background: 'linear-gradient(rgba(0, 185, 195, 0.5), rgba(16, 76, 120, 0.1))',
         borderRadius: '0.5rem',
         padding: '10px',
-        border: '3px solid rgba(27, 38, 44, 0.5)',
-        boxShadow: '2px 2px 2px rgba(27, 38, 44, 0.5)'
+        border: '3px solid rgba(32, 45, 44, 0.7)',
+        boxShadow: '2px 2px 2px rgba(29, 40, 44, 0.5)'
     },
 
 });
 
-export const WeatherDay = ({ weatherIcon, date, max, weatherDescription, celsius, fahrenheit, selectedUnit }) => {
+export const WeatherDay = ({ weatherIcon, date, weatherDescription, celsius, fahrenheit, selectedUnit }) => {
     const classes = useStyles();
 
     return (

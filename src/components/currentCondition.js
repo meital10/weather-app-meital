@@ -2,7 +2,7 @@ import React from 'react';
 import { WeatherIcon } from './weatherIcon';
 import { CurrentCity } from './favoriteIcon';
 import { useSelector } from 'react-redux';
-import { Container, Grid, Typography, Box } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@mui/material/IconButton';
 

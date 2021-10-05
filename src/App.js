@@ -27,7 +27,7 @@ function App() {
   return (
     <ThemeProvider theme={darkLightTheme}>
       <Fragment>
-        <Paper style={{ height: "250vh" }}>
+        <Paper style={{ height: "120vh" }}>
           <div className="App">
             <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
 

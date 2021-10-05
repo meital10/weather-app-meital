@@ -24,11 +24,10 @@ const useStyles = makeStyles({
 
 	weatherGrid: {
 		alignItems: 'center',
-		border: '2px solid #ccefff',
-		boxShadow: '4px 4px 4px rgba(27, 38, 44, 0.5)',
+		border: '1px solid rgba(173, 173, 235)',
+		boxShadow: '2px 2px 2px rgba(27, 38, 44, 0.5)',
 		marginRight: '20px',
 		marginLeft: '20px',
-		marginTop: '30px',
 		marginTop: '20px',
 		marginBottom: '20px'
 	},

@@ -2,7 +2,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Typography, Box } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import { Actions } from '../store';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ const RemoveFromFavorites = ({
         <FavoriteBorderIcon
             cursor='pointer'
             aria-label={title}
-            color="error"
+            color='error'
             onClick={onClick}
         />
     </Tooltip>
@@ -41,7 +41,7 @@ const AddToFavorites = ({
         <Favorite
             cursor='pointer'
             aria-label={title}
-            color="error"
+            color='secondary'
             onClick={onClick}
 
         />
@@ -50,7 +50,6 @@ const AddToFavorites = ({
 export const FavoriteCity = ({ favoriteCity }) => {
     const classes = useStyles()
     const defaultTempUnit = useSelector(state => state.dailyForecasts.defaultTempUnit)
-    const favorites = useSelector(state => state.favorites.data);
 
     return (
         <Container>
@@ -68,19 +67,18 @@ export const FavoriteCity = ({ favoriteCity }) => {
 }
 
 export const CurrentCity = () => {
-    const classes = useStyles()
     const currentCity = useSelector(state => state.currentCity.data);
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorites.data);
 
     return (
         isFavorite(favorites, currentCity) ? (
-            <IconButton adge='end' onClick={() => dispatch(Actions.FavoriteCities.remove({ Key: currentCity.Key }))}  >
+            <IconButton onClick={() => dispatch(Actions.FavoriteCities.remove({ Key: currentCity.Key }))}  >
                 <AddToFavorites />
             </IconButton>
         )
             :
-            (<IconButton adge='end' onClick={() => dispatch(Actions.FavoriteCities.add({ Key: currentCity.Key, Name: currentCity.Name }))}>
+            (<IconButton onClick={() => dispatch(Actions.FavoriteCities.add({ Key: currentCity.Key, Name: currentCity.Name }))}>
                 <RemoveFromFavorites />
             </IconButton>)
     )

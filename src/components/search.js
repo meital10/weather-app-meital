@@ -24,7 +24,6 @@ const useStyles = makeStyles({
 export const SearchCity = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const q = 'Tel Aviv';
 	const [options, setOptions] = useState([]);
 
 	return (
@@ -56,7 +55,7 @@ export const SearchCity = () => {
 
 					renderOption={(props, option) => {
 						return (
-							<h4 key={option.Key} {...props}>{`${option.LocalizedName}, ${option.Country.LocalizedName}`}</h4>
+							<h4 key={option.Key} {...props}>{`${option.LocalizedName}, ${option.Country.ID}`}</h4>
 						);
 					}}
 				/>
