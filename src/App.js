@@ -5,7 +5,6 @@ import {
   Switch,
   Route,
   Redirect,
-  HashRouter
 } from "react-router-dom";
 
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
