@@ -35,9 +35,9 @@ function App() {
 
               <Switch>
 
-                <Route exact path="/favorites" component={Favorites} />
-                <Route exact path="/home" component={Home} />
-                <Route exact path="/">
+                <Route path="/favorites" component={Favorites} />
+                <Route path="/home" component={Home} />
+                <Route path="/">
                   <Redirect to="/home" />
                 </Route>
 
