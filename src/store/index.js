@@ -22,8 +22,8 @@ const FavoritesSlice = createSlice({
 	name: 'favorites',
 	initialState: {
 		data: [{
-			Key: '',
-			Name: '',
+			Key: '215854',
+			Name: 'Tel Aviv',
 		}],
 		value: 0
 	},
