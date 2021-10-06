@@ -31,10 +31,7 @@ function App() {
             <Router>
               <Switch>
                 <Route path="/favorites" component={Favorites} />
-                <Route path="/home" component={Home} />
-                <Route path="/">
-                  <Redirect to="/home" />
-                </Route>
+                <Route path="/" component={Home} />
               </Switch>
             </Router>
           </div>
