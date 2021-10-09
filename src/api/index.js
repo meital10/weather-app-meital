@@ -1,4 +1,4 @@
-const apiKey = process.env.REACT_APP_API_KEY
+const apiKey = process.env.REACT_APP_API_KEY || 'eY7cCNHr3SGEIgacMiir8aQDn7aCXG8c'
 const BASE_URL = 'https://dataservice.accuweather.com';
 
 
