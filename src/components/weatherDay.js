@@ -36,18 +36,15 @@ export const WeatherDay = ({ weatherIcon, date, weatherDescription, celsius, fah
                     <Typography component='h6' variant='h6'>
                         {dayjs(date).format('ddd')}
                     </Typography >
-
                     <img
                         alt={weatherDescription}
                         src={`https://developer.accuweather.com/sites/default/files/${weatherIcon}-s.png`} />
                     <Typography>
-
                         {selectedUnit === 'C' ? `${celsius?.toFixed(1)}° C` : `${fahrenheit?.toFixed(1)}° F`}
                     </Typography>
                     <Typography>
                         {weatherDescription}
                     </Typography>
-
                 </CardContent>
             </Card>
         </Fragment >

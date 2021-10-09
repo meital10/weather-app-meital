@@ -1,5 +1,6 @@
-const apiKey = 'wSI4CAPApVWmdBbGbtB0HiamA9Xnnm9m'
+const apiKey = process.env.REACT_APP_API_KEY
 const BASE_URL = 'https://dataservice.accuweather.com';
+
 
 export const getFiveDaysUrl = (locationKey = '215854') => {
 	return `${BASE_URL}/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=true`;
@@ -14,16 +15,11 @@ export const getCurrentConditionUrl = (locationKey = '215854') => {
 };
 
 export const getCurrentLocationUrl = (lat = '32.045', lon = '34.77') => {
+
 	return `${BASE_URL}/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat}, ${lon}`
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export const GetCurrentLocation = ({ data: { LocalizedName, Key } }) => ({
-	name: LocalizedName,
-	locationKey: Key,
-});
-
-
 
 export const ToFahrenheit = celsius => {
 	return celsius * (9 / 5) + 32;

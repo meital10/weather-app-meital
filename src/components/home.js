@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
+
 import { WeatherDay } from './weatherDay';
 import { Actions } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { iconNum } from './weatherIcon'
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@mui/material/Alert';
 import { getFiveDaysUrl, getCurrentConditionUrl, ToFahrenheit } from '../api'
+import axios from 'axios';
 
 const useStyles = makeStyles({
 	gridCointainer: {
@@ -56,7 +57,7 @@ export const Home = () => {
 			setError(null);
 
 			dispatch(
-				Actions.DailyForecasts.set(
+				Actions.DailyForecasts.setForcast(
 					res.data.DailyForecasts.map(daily => {
 						return {
 							date: daily.Date,
@@ -68,10 +69,10 @@ export const Home = () => {
 					})
 				)
 			);
-		}).catch(err =>
-			(setIsPending(false))
-				(setError(err.message))
-
+		}).catch(err => {
+			setIsPending(false)
+			setError(err.message)
+		}
 		);
 		axios.get(getCurrentConditionUrl(currentCity.Key)).then(res => {
 			const data = {
@@ -81,7 +82,10 @@ export const Home = () => {
 				fahrenheit: res.data[0].Temperature.Imperial.Value
 			};
 			dispatch(Actions.CurrentCity.setCity(res.data[0]));
-		}).catch(err => console.log(err.message)
+		}).catch(err => {
+			setIsPending(false)
+			setError(err.message)
+		}
 		);
 	}, [currentCity.Key]);
 
@@ -94,9 +98,7 @@ export const Home = () => {
 
 			<Container fixed>
 				<Grid container spacing={2} className={classes.gridCointainer}>
-
 					{isPending && <div>Loading...</div>}
-
 					<Grid item xs={12}>
 						<SearchCity />
 					</Grid>
@@ -120,7 +122,6 @@ export const Home = () => {
 					</Grid>
 				</Grid>
 			</Container>
-
 		</Fragment >
 
 	);

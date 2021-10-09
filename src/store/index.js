@@ -6,28 +6,37 @@ const DailyForecastsSlice = createSlice({
 		data: [],
 		defaultTempUnit: 'C'
 	},
-
 	reducers: {
-		set: (state, action) => {
+		setForcast: (state, action) => {
 			state.data = action.payload;
-			// state.data = { ...state.data, ...action.payload };
 		},
 		setTempUnit: (state, action) => {
 			state.defaultTempUnit = action.payload;
 		}
+	}
+});
+
+const CurrentCitySlice = createSlice({
+	name: 'currentCity',
+	initialState: {
+		data: {
+			Key: '215854',
+			Name: 'Tel Aviv',
+		},
+	},
+	reducers: {
+		setCity: (state, action) => {
+			state.data = { ...state.data, ...action.payload };
+		}
 	},
 });
 
+const localFavorites = JSON.parse(localStorage.getItem('favorites'));
 const FavoritesSlice = createSlice({
 	name: 'favorites',
 	initialState: {
-		data: [{
-			Key: '215854',
-			Name: 'Tel Aviv',
-		}],
-		value: 0
+		data: localFavorites ? localFavorites : []
 	},
-
 	reducers: {
 		add: (state, action) => {
 			return {
@@ -42,41 +51,34 @@ const FavoritesSlice = createSlice({
 	},
 });
 
-const CurrentCitySlice = createSlice({
-	name: 'currentCity',
+const CurrentLocationSlice = createSlice({
+	name: 'currentLocation',
 	initialState: {
-		data: {
-			Key: '215854',
-			Name: 'Tel Aviv',
-		},
+		data: null,
+		hasNavigationError: false
 	},
-
 	reducers: {
-		setKey: (state, action) => {
-			state.data.Key = action.payload;
-		},
-		setCity: (state, action) => {
-			state.data = { ...state.data, ...action.payload };
-		},
 		setLocation: (state, action) => {
-
 			state.data = action.payload;
 		},
-
-	},
+		setNavigationError: (state, action) => {
+			state.hasNavigationError = action.payload;
+		}
+	}
 });
-
 
 const rootReducer = combineReducers({
 	dailyForecasts: DailyForecastsSlice.reducer,
 	currentCity: CurrentCitySlice.reducer,
 	favorites: FavoritesSlice.reducer,
+	location: CurrentLocationSlice.reducer
 });
 
 export const Actions = {
 	DailyForecasts: DailyForecastsSlice.actions,
 	CurrentCity: CurrentCitySlice.actions,
 	FavoriteCities: FavoritesSlice.actions,
+	CurrentLocation: CurrentLocationSlice.actions
 };
 
 export const store = configureStore({ reducer: rootReducer });

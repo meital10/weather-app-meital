@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Container, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@mui/material/IconButton';
+import { LocationIcon } from './locationIcon';
 
 const useStyles = makeStyles({
 	container: {
@@ -17,8 +18,6 @@ const useStyles = makeStyles({
 		marginBottom: '15px',
 	},
 	actions: {
-		fontSize: '2.6rem',
-		padding: '0.5rem',
 		marginLeft: 'auto'
 	},
 	information: {
@@ -50,12 +49,9 @@ export const CurrentCondition = ({ selectedUnit }) => {
 			<>
 				<Container>
 					<Grid container className={classes.container}>
-
 						<Grid item className={classes.information} >
 							<WeatherIcon icon={currentCity?.WeatherIcon} />
 						</Grid>
-
-
 						<Grid item className={classes.location}>
 							<Typography component={'h3'} variant="h6">
 								{currentCity.Name}
@@ -64,16 +60,12 @@ export const CurrentCondition = ({ selectedUnit }) => {
 								{selectedUnit === 'C' ? `${currentCity?.Temperature?.Metric?.Value}° C` : `${currentCity?.Temperature?.Imperial?.Value}° F`}
 							</Typography>
 						</Grid>
-
-						<div className={classes.actions}>
+						<Grid className={classes.actions}>
 							<IconButton >
-								{/* <LocationIcon /> */}
-							</IconButton>
-
-							<IconButton >
+								<LocationIcon />
 								<CurrentCity />
 							</IconButton>
-						</div>
+						</Grid>
 					</Grid>
 
 					<Grid item xs={12}>

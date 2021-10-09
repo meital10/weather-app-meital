@@ -55,7 +55,7 @@ export const SearchCity = () => {
 
 					renderOption={(props, option) => {
 						return (
-							<h4 key={option.Key} {...props}>{`${option.LocalizedName}, ${option.Country.ID}`}</h4>
+							<h4 {...props} key={option.Key} >{`${option.LocalizedName}, ${option.Country.LocalizedName}`}</h4>
 						);
 					}}
 				/>

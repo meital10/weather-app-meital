@@ -1,17 +1,36 @@
+import React, { Fragment } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Actions } from '../store';
-import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 const useStyles = makeStyles({
     action: {
         fontSize: '2.6rem',
         padding: '0.5rem',
         display: 'flex',
+    },
+    root: {
+        margin: '10px',
+        marginTop: '30px',
+        marginLeft: '50px',
+        marginBottom: '50px',
+        maxWidth: 200,
+        height: '12rem',
+        width: '9rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+        background: 'linear-gradient(rgba(0, 185, 195, 0.5), rgba(16, 76, 120, 0.1))',
+        borderRadius: '0.5rem',
+        padding: '10px',
+        border: '3px solid rgba(32, 45, 44, 0.7)',
+        boxShadow: '2px 2px 2px rgba(29, 40, 44, 0.5)'
     },
 });
 
@@ -47,22 +66,32 @@ const AddToFavorites = ({
         />
     </Tooltip>
 );
-export const FavoriteCity = ({ favoriteCity }) => {
+export const FavoriteCity = ({ onClick, name, weatherText, weatherIcon, celsius, fahrenheit, selectedUnit }) => {
     const classes = useStyles()
-    const defaultTempUnit = useSelector(state => state.dailyForecasts.defaultTempUnit)
 
     return (
-        <Container>
-            <Grid item className={classes.location}>
-                {/* <Typography component={'h3'} variant="h6">
-                    {favoriteCity.Name}
-                </Typography> */}
-                <Typography>
-                    {defaultTempUnit === 'C' ? `${favoriteCity?.Temperature?.Metric?.Value}° C` : `${favoriteCity?.Temperature?.Imperial?.Value}° F`}
-                </Typography>
+        <Fragment>
+            <Card className={classes.root} onClick={onClick}>
+                <CardContent style={{ textAlign: "center" }} >
+                    <Typography component={'h3'} variant="h6">
+                        {name}
+                    </Typography>
 
-            </Grid>
-        </Container>
+                    <Typography>
+                        {selectedUnit === 'C' ? `${celsius?.toFixed(1)}° C` : `${fahrenheit?.toFixed(1)}° F`}
+                    </Typography>
+
+                    <img
+                        alt={weatherText}
+                        src={`https://developer.accuweather.com/sites/default/files/${weatherIcon}-s.png`} />
+
+                    <Typography>
+                        {weatherText}
+                    </Typography>
+
+                </CardContent>
+            </Card>
+        </Fragment>
     )
 }
 
@@ -73,14 +102,10 @@ export const CurrentCity = () => {
 
     return (
         isFavorite(favorites, currentCity) ? (
-            <IconButton onClick={() => dispatch(Actions.FavoriteCities.remove({ Key: currentCity.Key }))}  >
-                <AddToFavorites />
-            </IconButton>
+            <AddToFavorites onClick={() => dispatch(Actions.FavoriteCities.remove({ Key: currentCity.Key }))} />
         )
             :
-            (<IconButton onClick={() => dispatch(Actions.FavoriteCities.add({ Key: currentCity.Key, Name: currentCity.Name }))}>
-                <RemoveFromFavorites />
-            </IconButton>)
+            <RemoveFromFavorites onClick={() => dispatch(Actions.FavoriteCities.add({ Key: currentCity.Key, Name: currentCity.Name }))} />
     )
 };
 
