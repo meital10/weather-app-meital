@@ -1,10 +1,13 @@
 import React, { useState, Fragment } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { Actions } from '../store';
-import axios from 'axios';
-import { getAutocompleteUrl } from '../api';
+import { TextField, Autocomplete } from '@mui/material';
+// import { debounce } from 'lodash';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import { Actions } from '../store';
+import { getAutocompleteUrl } from '../api';
+
+
 
 const useStyles = makeStyles({
 	option: {
@@ -21,27 +24,33 @@ const useStyles = makeStyles({
 	},
 });
 
+
+
 export const SearchCity = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [options, setOptions] = useState([]);
+
+	const onChange = (event, value) => {
+		if (!value || !value.Key) return;
+		dispatch(Actions.CurrentCity.setCity({ Key: value.Key, Name: value.LocalizedName }));
+	}
+
+	const inputChanged = async (event) => {
+		const q = event.target.value;
+		if (!q) return;
+		const res = await axios.get(getAutocompleteUrl(q));
+		setOptions(() => res.data);
+	}
+
 
 	return (
 		<div className={classes.container}>
 			<Fragment>
 				<Autocomplete
 					filterOptions={x => x}
-					onChange={(event, value) => {
-						if (!value || !value.Key) return;
-						dispatch(Actions.CurrentCity.setCity({ Key: value.Key, Name: value.LocalizedName }));
-					}}
-
-					onInputChange={async (event) => {
-						const q = event.target.value;
-						if (!q) return;
-						const res = await axios.get(getAutocompleteUrl(q));
-						setOptions(() => res.data);
-					}}
+					onChange={onChange}
+					onInputChange={inputChanged}
 					id='combo-box-demo'
 					options={options}
 					sx={{ width: 350 }}

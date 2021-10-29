@@ -11,10 +11,13 @@ import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import Brightness2OutlinedIcon from '@mui/icons-material/Brightness2Outlined';
 import { makeStyles } from '@material-ui/core/styles';
 
+
 const useStyles = makeStyles({
     gridCointainer: {
         alignItems: 'center',
         justify: 'space-between',
+        // position: 'fixed'
+
     },
 
     links: {
@@ -24,7 +27,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const Header = ({ check, change, fahrenheit, celsius }) => {
+export const Header = ({ check, change }) => {
     const [tempUnit, setTempUnit] = useState(false);
     const dispatch = useDispatch();
     const handleChange = (event) => {
@@ -45,7 +48,7 @@ export const Header = ({ check, change, fahrenheit, celsius }) => {
                     <Toolbar>
 
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Weather Task
+                            Weather App
                         </Typography>
 
                         <Button variant="contained" href="/home">Home</Button>
