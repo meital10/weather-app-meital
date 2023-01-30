@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     borderRadius: "0.5rem",
     padding: "10px",
     border: "3px solid rgba(32, 45, 44, 0.7)",
-    boxShadow: "2px 2px 2px rgba(29, 40, 44, 0.5)",
+    // boxShadow: "2px 2px 2px rgba(29, 40, 44, 0.5)",
   },
 });
 
