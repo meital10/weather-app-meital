@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Header } from "./components/appbar";
 import { Paper } from "@material-ui/core";
