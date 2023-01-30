@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useState } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Header } from "./components/appbar";
 import { Paper } from "@material-ui/core";
@@ -46,14 +46,14 @@ function App() {
       <Fragment>
         <Paper className="paper">
           <div className="App">
-            <Router basename="/">
+            <HashRouter basename="/">
               <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
 
               <Switch>
                 <Route path="/favorites" component={Favorites} />
                 <Route path="/" component={Home} />
               </Switch>
-            </Router>
+            </HashRouter>
           </div>
         </Paper>
       </Fragment>
