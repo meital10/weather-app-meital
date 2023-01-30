@@ -47,7 +47,7 @@ function App() {
         <Paper className="paper">
           <div className="App">
             <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
-            <Router>
+            <Router basename="/">
               <Switch>
                 <Route path="/favorites" component={Favorites} />
                 <Route path="/" component={Home} />
