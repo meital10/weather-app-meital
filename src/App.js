@@ -46,8 +46,9 @@ function App() {
       <Fragment>
         <Paper className="paper">
           <div className="App">
-            <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
             <Router basename="/">
+              <Header check={darkMode} change={() => setDarkMode(!darkMode)} />
+
               <Switch>
                 <Route path="/favorites" component={Favorites} />
                 <Route path="/" component={Home} />
