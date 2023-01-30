@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/weather-app-meital/static/css/main.56f86207.chunk.css",
-    "main.js": "/weather-app-meital/static/js/main.b5fc3dba.chunk.js",
-    "main.js.map": "/weather-app-meital/static/js/main.b5fc3dba.chunk.js.map",
+    "main.js": "/weather-app-meital/static/js/main.f9594de6.chunk.js",
+    "main.js.map": "/weather-app-meital/static/js/main.f9594de6.chunk.js.map",
     "runtime-main.js": "/weather-app-meital/static/js/runtime-main.2d926a6a.js",
     "runtime-main.js.map": "/weather-app-meital/static/js/runtime-main.2d926a6a.js.map",
     "static/js/2.28db4085.chunk.js": "/weather-app-meital/static/js/2.28db4085.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.2d926a6a.js",
     "static/js/2.28db4085.chunk.js",
     "static/css/main.56f86207.chunk.css",
-    "static/js/main.b5fc3dba.chunk.js"
+    "static/js/main.f9594de6.chunk.js"
   ]
 }
