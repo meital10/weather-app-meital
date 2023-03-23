@@ -7,7 +7,7 @@ import { CssBaseline, Grid, Container, Typography } from "@material-ui/core";
 import { CurrentCondition } from "./currentCondition";
 import { iconNum } from "./weatherIcon";
 import { makeStyles } from "@material-ui/core/styles";
-// import useMediaQuery from '@mui/material/useMediaQuery';
+
 import Alert from "@mui/material/Alert";
 import { getFiveDaysUrl, getCurrentConditionUrl, ToFahrenheit } from "../api";
 import axios from "axios";
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 
 export const Home = () => {
   const classes = useStyles();
-  // const matches = useMediaQuery('(min-width:600px)');
+
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
   const dailyForecasts = useSelector((state) => state.dailyForecasts.data);
