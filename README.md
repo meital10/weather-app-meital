@@ -15,12 +15,13 @@ By using this app users can:
 
 ### Screenshots
 
-<img src ="./images/main-page.png"/>
+<!-- <img src ="./images/main-page.png"/>
 <img src ="./images/dark-mode.png"/>
-<img src ="./images/favorites.png"/>
-<!-- ![](./images/main-page.png)
+<img src ="./images/favorites.png"/> -->
+
+![](./images/main-page.png)
 ![](./images/dark-mode.png)
-![](./images/favorites.png) -->
+![](./images/favorites.png)
 
 ## Built with
 
