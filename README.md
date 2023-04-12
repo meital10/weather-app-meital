@@ -1,4 +1,4 @@
-# weather application
+# Weather Application
 
 Weather app that shows 5 days forecast in selected city.
 
