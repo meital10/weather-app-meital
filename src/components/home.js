@@ -1,16 +1,15 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { WeatherDay } from "./weatherDay";
-import { Actions } from "../store";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SearchCity } from "./search";
 import { CssBaseline, Grid, Container, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@mui/material/Alert";
+
+import { useAxios, BASE_URL, apiKey, ToFahrenheit } from "../api";
+import { Actions } from "../store";
 import { CurrentCondition } from "./currentCondition";
 import { iconNum } from "./weatherIcon";
-import { makeStyles } from "@material-ui/core/styles";
-
-import Alert from "@mui/material/Alert";
-import { getFiveDaysUrl, getCurrentConditionUrl, ToFahrenheit } from "../api";
-import axios from "axios";
+import { WeatherDay } from "./weatherDay";
+import { SearchCity } from "./search";
 
 const useStyles = makeStyles({
   gridCointainer: {
@@ -45,71 +44,70 @@ const useStyles = makeStyles({
 export const Home = () => {
   const classes = useStyles();
 
-  const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
   const dailyForecasts = useSelector((state) => state.dailyForecasts.data);
   const defaultTempUnit = useSelector(
     (state) => state.dailyForecasts.defaultTempUnit
   );
   const currentCity = useSelector((state) => state.currentCity.data);
+
+  const getFiveDaysUrl = `${BASE_URL}/forecasts/v1/daily/5day/${currentCity.Key}?apikey=${apiKey}&metric=true`;
+  const getCurrentConditionUrl = `${BASE_URL}/currentconditions/v1/${currentCity.Key}?apikey=${apiKey}`;
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    axios
-      .get(getFiveDaysUrl(currentCity.Key))
-      .then((res) => {
-        setIsPending(false);
-        setError(null);
+  const {
+    response: currentCondition,
+    error: currentConditionError,
+    loading: currentConditionLoading,
+  } = useAxios(getCurrentConditionUrl);
 
-        dispatch(
-          Actions.DailyForecasts.setForcast(
-            res.data.DailyForecasts.map((daily) => {
-              return {
-                date: daily.Date,
-                weatherIcon: iconNum(daily.Day.Icon),
-                weatherDescription: daily.Day.IconPhrase,
-                celsius: daily.Temperature.Maximum.Value,
-                fahrenheit: ToFahrenheit(daily.Temperature.Maximum.Value),
-              };
-            })
-          )
-        );
-      })
-      .catch((err) => {
-        setIsPending(false);
-        setError(err.message);
-      });
-    axios
-      .get(getCurrentConditionUrl(currentCity.Key))
-      .then((res) => {
-        const data = {
-          weatherText: res.data[0].WeatherText,
-          weatherIcon: iconNum(res.data[0].WeatherIcon),
-          celsius: res.data[0].Temperature.Metric.Value,
-          fahrenheit: res.data[0].Temperature.Imperial.Value,
-        };
-        dispatch(Actions.CurrentCity.setCity(res.data[0]));
-      })
-      .catch((err) => {
-        setIsPending(false);
-        setError(err.message);
-      });
-  }, [currentCity.Key]);
+  const {
+    response: fiveDayForecast,
+    error: fiveDayForecastError,
+    loading: fiveDayForecastLoading,
+  } = useAxios(getFiveDaysUrl);
+
+  useEffect(() => {
+    if (currentCondition && fiveDayForecast) {
+      dispatch(
+        Actions.CurrentCity.setCity({
+          ...currentCity,
+          ...currentCondition[0],
+        })
+      );
+
+      dispatch(
+        Actions.DailyForecasts.setForcast(
+          fiveDayForecast.DailyForecasts.map((daily) => {
+            return {
+              date: daily.Date,
+              weatherIcon: iconNum(daily.Day.Icon),
+              weatherDescription: daily.Day.IconPhrase,
+              celsius: daily.Temperature.Maximum.Value,
+              fahrenheit: ToFahrenheit(daily.Temperature.Maximum.Value),
+            };
+          })
+        )
+      );
+    }
+  }, [currentCondition, fiveDayForecast]);
 
   return (
     <Fragment>
       <CssBaseline />
       <div>
-        {error && (
+        {(currentConditionError || fiveDayForecastError) && (
           <Alert variant="filled" severity="error">
-            {error}
+            {currentConditionError} {fiveDayForecastError}
           </Alert>
         )}
       </div>
 
       <Container fixed>
         <Grid container spacing={2} className={classes.gridCointainer}>
-          {isPending && <div>Loading...</div>}
+          {(currentConditionLoading || fiveDayForecastLoading) && (
+            <div>Loading...</div>
+          )}
           <Grid item xs={12}>
             <SearchCity />
           </Grid>

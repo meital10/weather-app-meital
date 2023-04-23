@@ -1,20 +1,53 @@
-const apiKey = process.env.REACT_APP_API_KEY;
-const BASE_URL = "https://dataservice.accuweather.com";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export const getFiveDaysUrl = (locationKey = "215854") => {
-  return `${BASE_URL}/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=true`;
+export const apiKey = process.env.REACT_APP_API_KEY;
+export const BASE_URL = "https://dataservice.accuweather.com";
+
+export const useAxios = (url) => {
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(url);
+        setResponse(res.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [url]);
+  return { response, error, loading };
 };
 
-export const getAutocompleteUrl = (q = "Tel Aviv") => {
-  return `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${q}`;
-};
+// -------------------------------------------------------------------------------------
+// useAxios for favorites page
+export const useAxiosFavorites = (urls) => {
+  const [resFavorites, setResFavorites] = useState([]);
+  const [favError, setFavError] = useState(null);
+  const [favLoading, setFavLoading] = useState(true);
 
-export const getCurrentConditionUrl = (locationKey = "215854") => {
-  return `${BASE_URL}/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
-};
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const promises = urls.map((url) => axios.get(url));
+        const resFavorites = await Promise.all(promises);
+        setResFavorites(resFavorites);
+      } catch (err) {
+        setFavError(err.message);
+      } finally {
+        setFavLoading(false);
+      }
+    };
+    fetchFavorites();
+  }, [urls]);
 
-export const getCurrentLocationUrl = (lat = "32.045", lon = "34.77") => {
-  return `${BASE_URL}/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat}, ${lon}`;
+  return { resFavorites, favError, favLoading };
 };
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -13,7 +13,9 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const favorites = useSelector((state) => state.favorites.data);
   const dispatch = useDispatch();
-
+  // if (process.env.NODE_ENV === "production") {
+  //   console.log("App running in production mode");
+  // }
   const onSuccess = (currentLocation) => {
     dispatch(
       Actions.CurrentLocation.setLocation({

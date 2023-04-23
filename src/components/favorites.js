@@ -5,8 +5,9 @@ import { FavoriteCity } from "./favoriteIcon";
 import { Actions } from "../store";
 import { iconNum } from "./weatherIcon";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentConditionUrl } from "../api";
-import axios from "axios";
+
+import { useAxiosFavorites, BASE_URL, apiKey } from "../api";
+
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -32,11 +33,14 @@ const useStyles = makeStyles({
 export const Favorites = () => {
   const classes = useStyles();
   let history = useHistory();
+
   const dispatch = useDispatch();
   const defaultTempUnit = useSelector(
     (state) => state.dailyForecasts.defaultTempUnit
   );
+
   const [items, setItems] = useState([]);
+  const [favUrls, setFavUrls] = useState([]);
   const favorites = useSelector((state) => state.favorites.data);
 
   const onClick = (payload) => {
@@ -45,11 +49,18 @@ export const Favorites = () => {
   };
 
   useEffect(() => {
-    const promises = favorites.map((fav) =>
-      axios.get(getCurrentConditionUrl(fav.Key))
+    const newFavUrls = favorites.map(
+      (fav) => `${BASE_URL}/currentconditions/v1/${fav.Key}?apikey=${apiKey}`
     );
-    Promise.all(promises).then((responses) => {
-      const result = responses.map((res, i) => {
+
+    setFavUrls(newFavUrls);
+  }, [favorites]);
+
+  const { resFavorites, favError, favLoading } = useAxiosFavorites(favUrls);
+
+  useEffect(() => {
+    if (resFavorites) {
+      const result = resFavorites.map((res, i) => {
         return {
           weatherText: res.data[0].WeatherText,
           weatherIcon: iconNum(res.data[0].WeatherIcon),
@@ -59,9 +70,10 @@ export const Favorites = () => {
           key: favorites[i].Key,
         };
       });
+
       setItems(result);
-    });
-  }, [favorites]);
+    }
+  }, [resFavorites]);
 
   return (
     <Container fixed>
@@ -78,23 +90,30 @@ export const Favorites = () => {
         </Grid>
 
         {favorites ? (
-          <Grid container spacing={2}>
-            {items.map((favorite, i) => (
-              <FavoriteCity
-                onClick={() =>
-                  onClick({ Key: favorite.key, Name: favorite.name })
-                }
-                key={i}
-                {...favorite}
-                selectedUnit={defaultTempUnit}
-              />
-            ))}
-          </Grid>
+          items.length > 0 ? (
+            <Grid container spacing={2}>
+              {items.map((favorite, i) => (
+                <FavoriteCity
+                  onClick={() =>
+                    onClick({ Key: favorite.key, Name: favorite.name })
+                  }
+                  key={i}
+                  {...favorite}
+                  selectedUnit={defaultTempUnit}
+                />
+              ))}
+            </Grid>
+          ) : (
+            <Typography>Loading...</Typography>
+          )
         ) : (
           <Grid className={classes.subtitle}>
             <NoFavorites />
           </Grid>
         )}
+
+        {favLoading && <Typography>Loading...</Typography>}
+        {favError && <Typography color="error">{favError}</Typography>}
       </Grid>
     </Container>
   );

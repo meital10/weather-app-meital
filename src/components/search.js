@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 import { TextField, Autocomplete } from "@mui/material";
 import { debounce } from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import { Actions } from "../store";
-import { getAutocompleteUrl } from "../api";
+import { useAxios, BASE_URL, apiKey } from "../api";
 
 const useStyles = makeStyles({
   option: {
@@ -24,8 +23,13 @@ const useStyles = makeStyles({
 
 export const SearchCity = () => {
   const classes = useStyles();
+  const [search, setSearch] = useState("");
+
+  const getAutocompleteUrl = `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${search}`;
+
+  const { response } = useAxios(getAutocompleteUrl);
+
   const dispatch = useDispatch();
-  const [options, setOptions] = useState([]);
 
   const onChange = (event, value) => {
     if (!value || !value.Key) return;
@@ -37,8 +41,7 @@ export const SearchCity = () => {
   const inputChanged = async (event) => {
     const q = event.target.value;
     if (!q) return;
-    const res = await axios.get(getAutocompleteUrl(q));
-    setOptions(() => res.data);
+    setSearch(q);
   };
   const debouncedOnChange = debounce(inputChanged, 1000);
 
@@ -50,7 +53,7 @@ export const SearchCity = () => {
           onChange={onChange}
           onInputChange={debouncedOnChange}
           id="combo-box-demo"
-          options={options}
+          options={response ? response : []}
           sx={{ width: 350 }}
           renderInput={(params) => {
             return (
